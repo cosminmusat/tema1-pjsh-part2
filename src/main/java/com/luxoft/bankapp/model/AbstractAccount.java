@@ -5,42 +5,27 @@ import com.luxoft.bankapp.service.feed.Feed;
 import java.io.Serializable;
 import java.util.Map;
 
-public abstract class AbstractAccount implements Account, Serializable
-{
+public abstract class AbstractAccount implements Account, Serializable {
     private long id;
 
     @Feed
     private double balance;
 
-    @Feed
-    final AccountType type;
-
-    public AbstractAccount(AccountType type)
-    {
-        this.type = type;
-    }
-
     @Override
-    public void deposit(double amount)
-    {
-        if (amount < 0)
-        {
+    public void deposit(double amount) {
+        if (amount < 0) {
             return;
         }
 
         balance += amount;
-        System.out.println("Successful deposit to " + type + " account.");
     }
 
     @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
-        {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
@@ -51,49 +36,36 @@ public abstract class AbstractAccount implements Account, Serializable
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder
                 .append("\n")
-                .append(getType())
                 .append("\n\tbalance = ")
                 .append(balance);
         return builder.toString();
     }
 
     @Override
-    public AccountType getType()
-    {
-        return type;
-    }
-
-    @Override
-    public double getBalance()
-    {
+    public double getBalance() {
         return balance;
     }
 
-    void setBalance(double balance)
-    {
+    void setBalance(double balance) {
         this.balance = balance;
     }
 
     @Override
-    public long getId()
-    {
+    public long getId() {
         return id;
     }
 
     @Override
-    public void setId(long id)
-    {
+    public void setId(long id) {
         this.id = id;
     }
 
     // TODO feed
-    public void parseFeed(Map<String, String> map)
-    {
+    public void parseFeed(Map<String, String> map) {
         String balance = map.get("balance");
         this.balance = Double.parseDouble(balance != null ? balance : "");
     }

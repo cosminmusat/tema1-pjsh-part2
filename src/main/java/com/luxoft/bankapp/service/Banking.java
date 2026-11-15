@@ -1,15 +1,13 @@
 package com.luxoft.bankapp.service;
 
 import com.luxoft.bankapp.model.Account;
-import com.luxoft.bankapp.model.AccountType;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.service.storage.Storage;
 
 import java.util.Map;
 import java.util.Set;
 
-public interface Banking
-{
+public interface Banking {
     void setStorage(Storage<Client> storage);
 
     Client addClient(Client c);
@@ -20,17 +18,17 @@ public interface Banking
 
     void removeClient(Client c);
 
-    Account createAccount(Client c, AccountType type);
+    Account createAccount(Client c, Class type);
 
     void updateAccount(Client c, Account account);
 
-    Account getAccount(Client c, AccountType type);
+    Account getAccount(Client c, Class type);
 
     Set<Account> getAllAccounts();
 
     Set<Account> getAllAccounts(Client c);
 
-    void removeAccount(Client c, AccountType type);
+    void removeAccount(Client c, Class type);
 
     void transferMoney(Client from, Client to, double amount);
 

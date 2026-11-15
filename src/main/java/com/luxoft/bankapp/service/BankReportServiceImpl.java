@@ -1,7 +1,7 @@
 package com.luxoft.bankapp.service;
 
 import com.luxoft.bankapp.model.Account;
-import com.luxoft.bankapp.model.AccountType;
+import com.luxoft.bankapp.model.CheckingAccount;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.service.storage.Storage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +13,17 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class BankReportServiceImpl implements BankReportService
-{
+public class BankReportServiceImpl implements BankReportService {
     @Autowired
     private Storage<Client> storage;
 
     @Override
-    public int getNumberOfBankClients()
-    {
+    public int getNumberOfBankClients() {
         return storage.getAll().size();
     }
 
     @Override
-    public int getAccountsNumber()
-    {
+    public int getAccountsNumber() {
         return storage.getAll()
                 .stream()
                 .flatMap(c -> c.getAccounts().stream())
@@ -34,8 +31,7 @@ public class BankReportServiceImpl implements BankReportService
     }
 
     @Override
-    public List<Client> getClientsSorted()
-    {
+    public List<Client> getClientsSorted() {
         return storage.getAll()
                 .stream()
                 .sorted(Comparator.comparing(Client::getName))
@@ -43,25 +39,22 @@ public class BankReportServiceImpl implements BankReportService
     }
 
     @Override
-    public double getBankCreditSum()
-    {
+    public double getBankCreditSum() {
         return storage.getAll().stream()
                 .flatMap(c -> c.getAccounts().stream())
-                .filter(a -> a.getType() == AccountType.CHECKING)
+                .filter(a -> a.getClass() == CheckingAccount.class)
                 .mapToDouble(Account::getBalance)
                 .filter(b -> b < 0)
                 .sum();
     }
 
     @Override
-    public Map<String, List<Client>> getClientsByCity()
-    {
+    public Map<String, List<Client>> getClientsByCity() {
         return storage.getAll().stream()
                 .collect(Collectors.groupingBy(Client::getCity));
     }
 
-    public void setStorage(Storage<Client> storage)
-    {
+    public void setStorage(Storage<Client> storage) {
         this.storage = storage;
     }
 }
